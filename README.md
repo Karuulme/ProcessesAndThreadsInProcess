@@ -41,7 +41,7 @@ Bunların neye göre belirlediğimizi [`CreateToolhelp32Snapshot`](https://docs.
 `if` de yaptığımız işlem, bir `Process` in olmaması durumunda ve bir hatayla karşılaştığımızdaki durum kontrolü.
 
 İlk gelen `Process `bilgisini ekrana yazdırıyoruz ve `while` da ise `Process32Next`'i tanımlıyoruz, Buradaki işlem bize çağrılan en son `Process `den sonraki `Process`'i döndürür, bir `Process `bulamadığında döngüden çıkacaktır. 
-işlemimiz bu kadar, son olarak `HANDLE `mizi serbes bırakmamız gerekiyor onuda `CloseHandle `ile yapıyoruz ve programız bitiriyoruz .
+işlemimiz bu kadar, son olarak `HANDLE `mizi serbes bırakmamız gerekiyor onuda `CloseHandle `ile yapıyoruz ve programı bitiriyoruz .
 
 
 
