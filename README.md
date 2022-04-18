@@ -6,7 +6,7 @@ Her şeyden önce `Process`  ve `Thread` in ne olduklarını hatırlayalım.
 - Process :   Belleğe yüklenmiş ve işlemcide yürütülmekte olan bir program.
 - Thread :    Tanımlamalardan bağımsız kalırsak, `Process` laltında çalışan küçük işlemcik olarak tanımlanabilir.
 - 
-İlk olarak işe `ProsesList.cpp` dosyasından başlayalım, Windows fonksiyonlarını kullanabilmemiz için gerekli kütüphane eklentilerini belirttik. 
+İlk olarak işe [`ProsesList.cpp` ](https://github.com/Karuulme/ProcessesAndThreadsInProcess/blob/main/ProsesList.cpp)dosyasından başlayalım, Windows fonksiyonlarını kullanabilmemiz için gerekli kütüphane eklentilerini belirttik. 
 
 `Process32First` fonk. kullanabilmemiz için önce  `HANDLE`   tutamacını tanımladık.
 
@@ -34,7 +34,21 @@ HANDLE CreateToolhelp32Snapshot(
   [in] DWORD th32ProcessID
 );
 ```
-Burada da görüldüğü gibi  2 parametre almakta.  Her parametrenin kendine ait fonk. ları var, bizim için ilgili olan ilk parametre 
+Burada da görüldüğü gibi  2 parametre almakta.  Her parametrenin kendine ait fonk. ları var, bizim için ilgili olan 1. parametre `TH32CS_SNAPPROCESS` ve 2. parametre olarak `0` olarak belirttik.
+Bunların neye göre belirlediğimizi [`CreateToolhelp32Snapshot`](https://docs.microsoft.com/en-us/windows/win32/api/tlhelp32/nf-tlhelp32-createtoolhelp32snapshot)'e tıklayarak kullanım detaylarını görebilirsiniz.
+
+`Process32First`'i kullanmadan hemen öncesinde `PROCESSENTRY32` classını tanımladığımız classın içerisine `PROCESSENTRY32` classının boyutunu belirtiyoruz.
+`if` de yaptığımız işlem, bir `Process` in olmaması durumunda ve bir hatayla karşılaştığımızdaki durum kontrolü.
+
+İlk gelen `Process `bilgisini ekrana yazdırıyoruz ve `while` da ise `Process32Next`'i tanımlıyoruz, Buradaki işlem bize çağrılan en son `Process `den sonraki `Process`'i döndürür, bir `Process `bulamadığında döngüden çıkacaktır. 
+işlemimiz bu kadar, son olarak `HANDLE `mizi serbes bırakmamız gerekiyor onuda `CloseHandle `ile yapıyoruz ve programız bitiriyoruz .
+
+
+
+
+
+
+
 
 
 
