@@ -1,4 +1,4 @@
-**Merhaba değerli okur,**
+**Selamlar**
    
 Bu program kodlarında, bilgisayarımızda çalışmakta olan `Process` ve bunların altında çalışmakta olan `Thread` leri listeleyeceğiz.
 Her şeyden önce `Process`  ve `Thread` in ne olduklarını hatırlayalım.
