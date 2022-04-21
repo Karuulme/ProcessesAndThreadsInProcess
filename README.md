@@ -9,19 +9,19 @@ Her şeyden önce `Process`  ve `Thread` in ne olduklarını hatırlayalım.
 
 ```
 	HANDLE hProcessShot;
-	PROCESSENTRY32  Information;
+	PROCESSENTRY32 ProcessInformation;
 	hProcessShot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
-	Information.dwSize = sizeof(PROCESSENTRY32);
-	if (Process32First(hProcessShot, &Information) && INVALID_HANDLE_VALUE != hProcessShot) {
+	ProcessInformation.dwSize = sizeof(PROCESSENTRY32);
+	if (Process32First(hProcessShot, &ProcessInformation) && INVALID_HANDLE_VALUE!= hProcessShot) {
 		do
 		{
-            ProcessesID.Add(Information.th32ProcessID);
-            ProcessesName.Add(Information.szExeFile);
-		} 
-        while (Process32Next(hProcessShot, &Information));
+			printf("PROCESS NAME:  %ls  -  ", ProcessInformation.szExeFile );
+			printf("PROCESS ID:  %i \n", ProcessInformation.th32ProcessID );
+		}
+		while (Process32Next(hProcessShot, &ProcessInformation));
 	}
 	else {
-		printf("Error");
+
 	}
 	CloseHandle(hProcessShot);
 ```
@@ -71,8 +71,8 @@ işlemimiz bu kadar, son olarak `HANDLE `mizi serbes bırakmamız gerekiyor onud
 	if (Thread32First(hProcessShot, &Information) && INVALID_HANDLE_VALUE != hProcessShot) {
 		do
 		{
-            ThreadsID.Add(Information.th32ThreadID);
-            ThreadsID.Add(Information.th32OwnerProcessID);
+                     printf("THREAD ID:  %ls  -  ", Information.th32ThreadID);
+                     printf("PROCESS ID:  %ls  -  ", Information.th32OwnerProcessID);
 		} while (Thread32Next(hProcessShot, &Information));
 	}
 	else {
@@ -90,3 +90,10 @@ Fakat bunu yaptığımızda her `Process` için `Thread`lerin listesi tekrardan 
 [`DynamicArray`](https://github.com/Karuulme/DynamicArray)'da dinamik diziyi inceleyebilirsiniz.
 
 `Process `leri ve `Thread `leri listeye aktarıp sonradan karşılaştırma yapmak daha az bilgisayar gücü gerektirdiği için bunu tercih ettim.
+
+
+
+
+
+
+
