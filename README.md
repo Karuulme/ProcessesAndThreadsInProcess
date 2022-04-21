@@ -71,8 +71,8 @@ işlemimiz bu kadar, son olarak `HANDLE `mizi serbes bırakmamız gerekiyor onud
 	if (Thread32First(hProcessShot, &Information) && INVALID_HANDLE_VALUE != hProcessShot) {
 		do
 		{
-                     printf("THREAD ID:  %ls  -  ", Information.th32ThreadID);
-                     printf("PROCESS ID:  %ls  -  ", Information.th32OwnerProcessID);
+                     printf("THREAD ID:  %i  -  ", Information.th32ThreadID);
+                     printf("PROCESS ID:  %i  -  ", Information.th32OwnerProcessID);
 		} while (Thread32Next(hProcessShot, &Information));
 	}
 	else {
