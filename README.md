@@ -7,6 +7,24 @@ Her şeyden önce `Process`  ve `Thread` in ne olduklarını hatırlayalım.
 - Thread :    Tanımlamalardan bağımsız kalırsak, `Process` lerin altında çalışan küçük işlemcik olarak tanımlanabilir.
 İlk olarak işe [`ProsesList.cpp` ](https://github.com/Karuulme/ProcessesAndThreadsInProcess/blob/main/ProsesList.cpp)dosyasından başlayalım, Windows fonksiyonlarını kullanabilmemiz için gerekli kütüphane eklentilerini belirttik. 
 
+```
+	HANDLE hProcessShot;
+	PROCESSENTRY32  Information;
+	hProcessShot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+	Information.dwSize = sizeof(PROCESSENTRY32);
+	if (Process32First(hProcessShot, &Information) && INVALID_HANDLE_VALUE != hProcessShot) {
+		do
+		{
+            ProcessesID.Add(Information.th32ProcessID);
+            ProcessesName.Add(Information.szExeFile);
+		} 
+        while (Process32Next(hProcessShot, &Information));
+	}
+	else {
+		printf("Error");
+	}
+	CloseHandle(hProcessShot);
+```
 `Process32First` fonk. kullanabilmemiz için önce  `HANDLE`   tutamacını tanımladık.
 
 - Handle : İşletim sisteminin o işe ilişkin bilgileri depolayacağı alan.
@@ -42,25 +60,33 @@ Bunların neye göre belirlediğimizi [`CreateToolhelp32Snapshot`](https://docs.
 İlk gelen `Process `bilgisini ekrana yazdırıyoruz ve `while` da ise `Process32Next`'i tanımlıyoruz, Buradaki işlem bize çağrılan en son `Process `den sonraki `Process`'i döndürür, bir `Process `bulamadığında döngüden çıkacaktır. 
 işlemimiz bu kadar, son olarak `HANDLE `mizi serbes bırakmamız gerekiyor onuda `CloseHandle `ile yapıyoruz ve programı bitiriyoruz .
 
+ Gel gelelim [`ThreaInsProsses.cpp`](https://github.com/Karuulme/ProcessesAndThreadsInProcess/blob/main/ThreaInsProsses.cpp) dosyasına. `Process` leri açıklamıştım. `Thread` lerde de aynı işlemler uygulanıyor değişen 2 şey var 1.si `Thread` lerin bilgilerine uyuşabilmemiz için `THREADENTRY32  ` sınıfını tanımlamamız gerekiyor. Hatırlarsanız `Process` lerde de `PROCESSENTRY32 `'yi kullanmıştık.
+2.si `CreateToolhelp32Snapshot` da  ilk parametreye `TH32CS_SNAPTHREAD` giriyoruz.
+```
+	HANDLE hProcessShot;
+	THREADENTRY32  Information;
+	hProcessShot = CreateToolhelp32Snapshot(TH32CS_SNAPTHREAD, 0);
+	Information.dwSize = sizeof(THREADENTRY32);
 
+	if (Thread32First(hProcessShot, &Information) && INVALID_HANDLE_VALUE != hProcessShot) {
+		do
+		{
+            ThreadsID.Add(Information.th32ThreadID);
+            ThreadsID.Add(Information.th32OwnerProcessID);
+		} while (Thread32Next(hProcessShot, &Information));
+	}
+	else {
+		printf("Error");
 
+	}
+	CloseHandle(hProcessShot);
+```
+`Process `lerde yaptığımız gibi `Process32Next` için `Thread `lerde de `Thread32First` kullanacağız. Tüm mantık aynı. 
+Bu değişiklikleri yaptıktan sonra `Thread `lerin listesini de aldık.
 
+Bu programda List<int> kullandık. çünkü biz `Process` lerin altındaki `Thread`leri yazdırabilmemiz için `Process` ID sini  `void ThreadsInProsses()` buraya parametre olarak gönderip  `Thread` in `Process` ID si ile karşılaştırarak listeleyebilirdik her seferinde.
+Fakat bunu yaptığımızda her `Process` için `Thread`lerin listesi tekrardan bilgisayardan çekilecekti. Bu bilgisayar için fazladan iş gücü demek.
 
+[`DynamicArray`](https://github.com/Karuulme/DynamicArray)'da dinamik diziyi inceleyebilirsiniz.
 
-
-
-
-
-
-
-
- 
-
-
-
-
-
-
-
-
-
+`Process `leri ve `Thread `leri listeye aktarıp sonradan karşılaştırma yapmak daha az bilgisayar gücü gerektirdiği için bunu tercih ettim.
