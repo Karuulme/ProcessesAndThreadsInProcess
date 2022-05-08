@@ -90,10 +90,3 @@ Fakat bunu yaptığımızda her `Process` için `Thread`lerin listesi tekrardan 
 [`DynamicArray`](https://github.com/Karuulme/DynamicArray)'da dinamik diziyi inceleyebilirsiniz.
 
 `Process `leri ve `Thread `leri listeye aktarıp sonradan karşılaştırma yapmak daha az bilgisayar gücü gerektirdiği için bunu tercih ettim.
-
-
-
-
-
-
-
